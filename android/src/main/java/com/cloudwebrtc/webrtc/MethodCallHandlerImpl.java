@@ -2067,7 +2067,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
     if (pco == null || pco.getPeerConnection() == null) {
       resultError("addTrack", "peerConnection is null", result);
     } else {
-      TrackRegistry.register((VideoTrack) track); // VideoTrack 등록
+      TrackRegistry.register(track.track); // VideoTrack 등록
       pco.addTrack(track.track, streamIds, result);
     }
   }
