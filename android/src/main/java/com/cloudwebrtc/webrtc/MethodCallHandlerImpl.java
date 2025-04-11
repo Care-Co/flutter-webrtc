@@ -41,6 +41,7 @@ import com.cloudwebrtc.webrtc.video.VideoCapturerInfo;
 import com.cloudwebrtc.webrtc.video.camera.CameraUtils;
 import com.cloudwebrtc.webrtc.video.camera.Point;
 import com.cloudwebrtc.webrtc.video.LocalVideoTrack;
+import com.cloudwebrtc.webrtc.TrackRegistry;
 import com.twilio.audioswitch.AudioDevice;
 
 import org.webrtc.AudioTrack;
@@ -1634,6 +1635,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
           mediaStream.addTrack((AudioTrack) track);
           result.success(null);
         } else if (kind.equals("video")) {
+          TrackRegistry.register((VideoTrack) track); // VideoTrack 등록
           mediaStream.addTrack((VideoTrack) track);
           result.success(null);
         } else {
@@ -2065,6 +2067,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
     if (pco == null || pco.getPeerConnection() == null) {
       resultError("addTrack", "peerConnection is null", result);
     } else {
+      TrackRegistry.register((VideoTrack) track); // VideoTrack 등록
       pco.addTrack(track.track, streamIds, result);
     }
   }
