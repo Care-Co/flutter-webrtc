@@ -582,6 +582,8 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
 
         ConstraintsMap params = new ConstraintsMap();
         params.putInt("textureId", (int) producer.id());
+
+        TrackRegistry.registerSurfaceProducer((int) producer.id(), producer); // SurfaceProducer 등록
         result.success(params.toMap());
         break;
       }
@@ -594,6 +596,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
         }
         render.Dispose();
         renders.delete(textureId);
+        TrackRegistry.unregisterSurfaceProducer(textureId); // SurfaceProducer 제거
         result.success(null);
         break;
       }
