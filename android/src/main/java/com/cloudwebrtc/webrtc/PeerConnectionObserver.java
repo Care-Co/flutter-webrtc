@@ -446,10 +446,10 @@ class PeerConnectionObserver implements PeerConnection.Observer, EventChannel.St
     String streamId = mediaStream.getId();
 
     for (VideoTrack track : mediaStream.videoTracks) {
+      TrackRegistry.unregister(track.id());
       this.remoteTracks.remove(track.id());
     }
     for (AudioTrack track : mediaStream.audioTracks) {
-      TrackRegistry.unregister(track);
       this.remoteTracks.remove(track.id());
     }
 
