@@ -1635,7 +1635,6 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
           mediaStream.addTrack((AudioTrack) track);
           result.success(null);
         } else if (kind.equals("video")) {
-          TrackRegistry.register((VideoTrack) track); // VideoTrack 등록
           mediaStream.addTrack((VideoTrack) track);
           result.success(null);
         } else {
@@ -2067,7 +2066,6 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
     if (pco == null || pco.getPeerConnection() == null) {
       resultError("addTrack", "peerConnection is null", result);
     } else {
-      TrackRegistry.register(track.track); // VideoTrack 등록
       pco.addTrack(track.track, streamIds, result);
     }
   }

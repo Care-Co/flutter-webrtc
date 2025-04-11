@@ -449,6 +449,7 @@ class PeerConnectionObserver implements PeerConnection.Observer, EventChannel.St
       this.remoteTracks.remove(track.id());
     }
     for (AudioTrack track : mediaStream.audioTracks) {
+      TrackRegistry.unregister(track);
       this.remoteTracks.remove(track.id());
     }
 
@@ -469,6 +470,11 @@ class PeerConnectionObserver implements PeerConnection.Observer, EventChannel.St
     for (MediaStream stream : mediaStreams) {
       String streamId = stream.getId();
       MediaStreamTrack track = receiver.track();
+
+      if(track instanceof VideoTrack) {
+        TrackRegistry.register((VideoTrack)track);
+      }
+
       ConstraintsMap params = new ConstraintsMap();
       params.putString("event", "onAddTrack");
       params.putString("streamId", streamId);
