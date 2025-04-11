@@ -921,6 +921,9 @@ class PeerConnectionObserver implements PeerConnection.Observer, EventChannel.St
 
   public void addTrack(MediaStreamTrack track, List<String> streamIds, Result result) {
     RtpSender sender = peerConnection.addTrack(track, streamIds);
+    if(track instanceof VideoTrack) {
+      TrackRegistry.register((VideoTrack) track);
+    }
     result.success(rtpSenderToMap(sender));
   }
 
@@ -931,6 +934,13 @@ class PeerConnectionObserver implements PeerConnection.Observer, EventChannel.St
       return;
     }
     boolean res = peerConnection.removeTrack(sender);
+
+    // 트랙이 localTracks에 있으면 제거
+    MediaStreamTrack track = sender.track();
+    if (track != null) {
+      TrackRegistry.unregister(track.id());
+    }
+
     Map<String, Object> params = new HashMap<>();
     params.put("result", res);
     result.success(params);
